@@ -1,8 +1,10 @@
 import React from 'react'
 import User from "./User";
 import { USER_PER_PAGE } from "../utils/constants";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-const DataTable = ({ users, page }) => {
+const DataTable = ({ users, page, titles, sortField }) => {
 
     const startIndex = (page - 1) * USER_PER_PAGE;
     const selectedUsers = users.slice(startIndex, startIndex + USER_PER_PAGE);
@@ -12,10 +14,13 @@ const DataTable = ({ users, page }) => {
         <table>
             <tbody>
                 <tr>
-                    <th>ID</th>
-                    <th>NAME</th>
-                    <th>USERNAME</th>
-                    <th>EMAIL</th>
+                {titles.map(title =>
+                <th key={title}
+                    onClick={() => sortField(title)}
+                >
+                    {title} <FontAwesomeIcon icon={faChevronUp} />
+                </th>
+                )}
                 </tr>
                 {selectedUsers.map(user => (
                 <tr>

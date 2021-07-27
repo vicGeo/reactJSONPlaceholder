@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { URL, USER_PER_PAGE } from "./utils/constants";
+import { TABLE_TITLES, URL, USER_PER_PAGE } from "./utils/constants";
 import DataTable from "./components/DataTable";
-import Pagination from "./components/Pagination";
 import './App.css';
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import Pagination from "./components/Pagination";
 
 
 function App() {
@@ -29,6 +29,25 @@ function App() {
       fetchData();
   }, []);
 
+  const handleClick = num => setPage(num);
+
+  const sortField = (field) => {
+    const userSorted = [...users].sort((a, b) => {
+      if (field === "ID") {
+        return a.id - b.id;
+      }
+      if (field ==="NAME") {
+        return a.name.localeCompare(b.name);
+
+      }
+      if (field === "USERNAME") {
+        return a.username.localeCompare(b.username);
+      }
+    })
+    setUsers(userSorted);
+
+}
+
 
 
   return (
@@ -36,8 +55,8 @@ function App() {
     <h1>GEDESCO</h1>
     { loading ? <FontAwesomeIcon icon={faSpinner} /> :
     <>
-    <DataTable users={users} page={page} />
-    <Pagination totalPages={totalPages} />
+    <DataTable users={users} page={page} titles={TABLE_TITLES} sortField={sortField} />
+    <Pagination totalPages={totalPages} handleClick={handleClick} />
     </>
     }
     </div>
