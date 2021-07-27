@@ -11,6 +11,7 @@ function App() {
 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
 
   useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
         const res = await axios.get(URL);
         setLoading(false);
         setUsers(res.data);
+
       }
       fetchData();
   }, []);
@@ -30,7 +32,7 @@ function App() {
     <h1>GEDESCO</h1>
     { loading ? <FontAwesomeIcon icon={faSpinner} /> :
     <>
-    <DataTable users={users}/>
+    <DataTable users={users} page={page}/>
     </>
     }
     </div>
