@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { URL } from "./utils/constants";
+import { URL, USER_PER_PAGE } from "./utils/constants";
 import DataTable from "./components/DataTable";
+import Pagination from "./components/Pagination";
 import './App.css';
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +13,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
 
   useEffect(() => {
@@ -21,6 +23,8 @@ function App() {
         setLoading(false);
         setUsers(res.data);
 
+
+        setTotalPages(Math.ceil(res.data.length / USER_PER_PAGE));
       }
       fetchData();
   }, []);
@@ -32,7 +36,8 @@ function App() {
     <h1>GEDESCO</h1>
     { loading ? <FontAwesomeIcon icon={faSpinner} /> :
     <>
-    <DataTable users={users} page={page}/>
+    <DataTable users={users} page={page} />
+    <Pagination totalPages={totalPages} />
     </>
     }
     </div>

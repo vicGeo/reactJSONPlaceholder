@@ -17,9 +17,11 @@ const DataTable = ({ users, page }) => {
                     <th>USERNAME</th>
                     <th>EMAIL</th>
                 </tr>
+                {selectedUsers.map(user => (
                 <tr>
-                    <User />
+                    <User user={user} key={user.id} />
                 </tr>
+                ))}
             </tbody>
         </table>
     )
