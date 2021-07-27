@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import { useEffect, useState } from "react";
+import { URL } from "./utils/constants";
+import DataTable from "./components/DataTable";
 import './App.css';
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
 
 function App() {
+
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+      const fetchData = async () => {
+        setLoading(true);
+        const res = await axios.get(URL);
+        setLoading(false);
+        setUsers(res.data);
+      }
+      fetchData();
+  }, []);
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <h1>GEDESCO</h1>
+    { loading ? <FontAwesomeIcon icon={faSpinner} /> :
+    <>
+    <DataTable users={users}/>
+    </>
+    }
     </div>
   );
 }
